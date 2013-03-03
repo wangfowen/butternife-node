@@ -21,8 +21,26 @@ app.configure(function(){
 app.get('/trip/:id', function (req, res) {});
 
 app.post('/routing', function (req, res) {
-  console.log(req.body);
-  res.send(JSON.stringify(req.body));
+  var body = req.body;
+  var out = [];
+
+  console.log(body);
+  if (Object.prototype.toString.call(body) !== '[object Array]')
+    res.send(400, '');
+
+  for (var i in body){
+    if (!body[i].lat || !body[i].lon)
+      res.send(400, '');
+    out.push(body[i]);
+    if (!i)
+      continue;
+
+    lat = body[i - 1].lat * .5 + body[i].lat * .5;
+    lon = body[i - 1].lon * .5 + body[i].lon * .5;
+    out.put({lat: lat, lon: lon});
+  }
+
+  res.send(JSON.stringify(out));
 });
 
 app.listen(port);
