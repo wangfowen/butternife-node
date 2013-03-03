@@ -8,13 +8,18 @@ function validateEmail(email) {
   return re.test(email);
 }
 
-var Firebase = require('./firebase-node');
-var db = new Firebase('https://hellaroadtrip.firebaseIO-demo.com/');
+//var Firebase = require('./firebase-node');
+//var db = new Firebase('https://hellaroadtrip.firebaseIO-demo.com/');
+
+var mongodb = require('mongodb');
+//var Server = mongo.Server;
+//var Db = mongo.Db;
 
 var express = require('express');
 ///wines = require('./routes/wines');
 var app = express.createServer();
 var port = process.env.PORT || 8000;
+var db = null;
 
 app.configure(function(){
   app.use(express.bodyParser());
@@ -25,20 +30,24 @@ app.configure(function(){
 
 app.get('/trip/:id', function (req, res) {});
 
-app.post('/trip/:tripName', function (req, res) {
+app.put('/trip/:tripName', function (req, res) {
   var tripName = req.params.tripName;
   var creator = req.body.creator, address = req.body.address, car = req.body.car;
 
   if (!tripName || /[^a-zA-Z0-9]/.test(tripName) || !validateEmail(creator) || car != parseInt(car + ""))
     res.send(400, '');
 
-  db.push({"test":"yes"});
+  var cTrip = db.collection('trip'), cAccount = db.collection('account');
+  cTrip.findOne({"name" : tripName}, function (err, result){
+    if (err || result !== null){
+      res.send(412, ''); // umm it might mean 500
+    }
 
-  // does it exist?
-  //res.send(412, '');
-  //save
-  //save creator
-  //send email
+    cTrip.insert({"name" : tripName});
+    cAccount.insert({trip : tripName, email : creator, address : address, car : car});
+//send email
+    res.send(201, '');
+  });
 });
 
 app.post('/routing', function (req, res) {
@@ -63,5 +72,18 @@ app.post('/routing', function (req, res) {
   res.send(JSON.stringify(out));
 });
 
-app.listen(port);
-console.log('Listening on port ' + port + '...');
+function init(port){
+    db = new mongodb.Db('heroku_app12711444', new mongodb.Server('ds031647.mongolab.com', 31647, {auto_reconnect : true}), {w: 0});
+    db.open(function (err, client){
+	  client.authenticate('hellaroadtrip', 'hellaroadtrip', function (err, success){
+        if (err){
+          console.log("The database cannot be opened. Mongo is exiting now. " + err);
+          process.exit(1);
+        }
+        app.listen(port);
+        console.log('Listening on port ' + port + '...');
+      });
+    });
+}
+
+init(port);
