@@ -35,10 +35,10 @@ console.log(i);
     out.push(body[i]);
     if (!i)
       continue;
-
+console.log('here we go i='+i);
     var lat = body[i - 1].lat * .5 + body[i].lat * .5;
     var lon = body[i - 1].lon * .5 + body[i].lon * .5;
-    out.put({lat: lat, lon: lon});
+    out.push({lat: lat, lon: lon});
   }
 
   res.send(JSON.stringify(out));
