@@ -28,7 +28,7 @@ console.log("Server running at http://127.0.0.1:" + port + "/");
 
 var express = require('express');//,
 ///wines = require('./routes/wines');
-var app = express();
+var app = express.createServer();
 var port = process.env.PORT || 8000;
 
 app.configure(function(){
