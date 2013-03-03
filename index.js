@@ -29,6 +29,11 @@ function addAccountToTrip(cAccount, tripName, email, address, car){
   sendEmail(email, 'Welcome to hellaroadtrip ' + tripName, 'You are in! Your address: ' + address);
 }
 
+function test(){
+ // var cAccount = db.collection('account');
+ // console.log(cAccount.find({ $or : [{trip : 'testtrip4', email : 'kristopherwindsor+halla@gmail.com'}]}).count(function(a,b){console.log(b);}));
+}
+
 var mongodb = require('mongodb');
 
 var express = require('express');
@@ -93,17 +98,23 @@ app.post('/trip/:tripName/addaccounts', function (req, res) {
     }
     mustNotExist.push({trip: tripName, email: accounts[i].email});
   }
-  if (cAccount.find({ $or : mustNotExist }).count() > 0){
-    res.send(412, 'at least one account already exists');
-    return;
-  }
+  cAccount.find({ $or : mustNotExist }).count(function (err, count){
+	if (err){
+		res.send(500, 'count query failed');
+		return;
+	}
+    if (count > 0){
+      res.send(412, 'at least one account already exists');
+      return;
+    }
 
-  // validation ok
+    // validation ok
 
-  for (var i in accounts){
-    addAccountToTrip(cAccount, tripName, accounts[i].email, accounts[i].address, accounts[i].car);
-  }
-  res.send(201, '');
+    for (var i in accounts){
+      addAccountToTrip(cAccount, tripName, accounts[i].email, accounts[i].address, accounts[i].car);
+    }
+    res.send(201, '');
+  });
 });
 
 //
@@ -144,6 +155,7 @@ function init(port){
         }
         app.listen(port);
         console.log('Listening on port ' + port + '...');
+        test();
       });
     });
 }
