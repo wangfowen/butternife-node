@@ -26,7 +26,7 @@ function sendEmail(to, subject, body){
 
 function addAccountToTrip(cAccount, tripName, email, address, car){
   cAccount.insert({trip : tripName, email : email, address : address, car : car});
-  sendEmail(creator, 'Welcome to hellaroadtrip ' + tripName, 'You are in! Your address: ' + address);
+  sendEmail(email, 'Welcome to hellaroadtrip ' + tripName, 'You are in! Your address: ' + address);
 }
 
 var mongodb = require('mongodb');
