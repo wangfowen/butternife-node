@@ -29,14 +29,15 @@ app.post('/routing', function (req, res) {
     res.send(400, '');
 
   for (var i in body){
+console.log(i);
     if (!body[i].lat || !body[i].lon)
       res.send(400, '');
     out.push(body[i]);
     if (!i)
       continue;
 
-    lat = body[i - 1].lat * .5 + body[i].lat * .5;
-    lon = body[i - 1].lon * .5 + body[i].lon * .5;
+    var lat = body[i - 1].lat * .5 + body[i].lat * .5;
+    var lon = body[i - 1].lon * .5 + body[i].lon * .5;
     out.put({lat: lat, lon: lon});
   }
 
