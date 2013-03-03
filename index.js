@@ -87,7 +87,7 @@ app.post('/trip/:tripName/addaccounts', function (req, res) {
   }
   var mustNotExist = [];
   for (var i in accounts){
-    if (!validateEmail(accounts[i].email) || car != parseInt(car + "")){
+    if (!validateEmail(accounts[i].email) || accounts[i].car != parseInt(accounts[i].car + "")){
       res.send(400, 'at least one account is invalid');
       return;
     }
