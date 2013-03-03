@@ -3,8 +3,13 @@
 
 
 
+function validateEmail(email) { 
+  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email);
+}
 
-
+var Firebase = require('./firebase-node');
+var db = new Firebase('https://hellaroadtrip.firebaseIO-demo.com/');
 
 var express = require('express');
 ///wines = require('./routes/wines');
@@ -19,6 +24,22 @@ app.configure(function(){
 });
 
 app.get('/trip/:id', function (req, res) {});
+
+app.post('/trip/:tripName', function (req, res) {
+  var tripName = req.params.tripName;
+  var creator = req.body.creator, address = req.body.address, car = req.body.car;
+
+  if (!tripName || /[^a-zA-Z0-9]/.test(tripName) || !validateEmail(creator) || car != parseInt(car + ""))
+    res.send(400, '');
+
+  db.push({"test":"yes"});
+
+  // does it exist?
+  //res.send(412, '');
+  //save
+  //save creator
+  //send email
+});
 
 app.post('/routing', function (req, res) {
   var body = req.body;
