@@ -33,7 +33,7 @@ console.log(i);
     if (!body[i].lat || !body[i].lon)
       res.send(400, '');
     out.push(body[i]);
-    if (!i)
+    if (i == 0 || i == '0')
       continue;
 console.log('here we go i='+i);
     var lat = body[i - 1].lat * .5 + body[i].lat * .5;
