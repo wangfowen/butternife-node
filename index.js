@@ -24,12 +24,14 @@ function sendEmail(to, subject, body){
   });
 }
 
+function addAccountToTrip(cAccount, tripName, email, address, car){
+  cAccount.insert({trip : tripName, email : email, address : address, car : car});
+  sendEmail(creator, 'Welcome to hellaroadtrip ' + tripName, 'You are in! Your address: ' + address);
+}
+
 var mongodb = require('mongodb');
-//var Server = mongo.Server;
-//var Db = mongo.Db;
 
 var express = require('express');
-///wines = require('./routes/wines');
 var app = express.createServer();
 var port = process.env.PORT || 8000;
 var db = null;
@@ -42,6 +44,8 @@ app.configure(function(){
 });
 
 app.get('/trip/:id', function (req, res) {});
+
+// Create a new trip and add creator to trip
 
 app.put('/trip/:tripName', function (req, res) {
   var tripName = req.params.tripName;
@@ -60,13 +64,49 @@ app.put('/trip/:tripName', function (req, res) {
     }
 
     cTrip.insert({"name" : tripName});
-    cAccount.insert({trip : tripName, email : creator, address : address, car : car});
-    sendEmail(creator, 'Welcome to hellaroadtrip', 'You are in! Your address: ' + address);
+    addAccountToTrip(cAccount, tripName, creator, address, car);
 
-//send email
     res.send(201, '');
   });
 });
+
+// Add a user to a trip (should send them invite email)
+
+app.post('/trip/:tripName/addaccounts', function (req, res) {
+  var tripName = req.params.tripName;
+  var accounts = req.body;
+  var cTrip = db.collection('trip'), cAccount = db.collection('account');
+
+  if (!tripName || /[^a-zA-Z0-9]/.test(tripName) || Object.prototype.toString.call(accounts) !== '[object Array]'){
+    res.send(400, 'bad trip name or accounts array');
+    return;
+  }
+  if (cTrip.find({ name : tripName}).count() == 0){
+    res.send(404, 'trip not found');
+    return;
+  }
+  var mustNotExist = [];
+  for (var i in accounts){
+    if (!validateEmail(accounts[i].email) || car != parseInt(car + "")){
+      res.send(400, 'at least one account is invalid');
+      return;
+    }
+    mustNotExist.push({trip: tripName, email: accounts[i].email});
+  }
+  if (cAccount.find({ $or : mustNotExist }).count() > 0){
+    res.send(412, 'at least one account already exists');
+    return;
+  }
+
+  // validation ok
+
+  for (var i in accounts){
+    addAccountToTrip(cAccount, tripName, accounts[i].email, accounts[i].address, accounts[i].car);
+  }
+  res.send(201, '');
+});
+
+//
 
 app.post('/routing', function (req, res) {
   var body = req.body;
@@ -104,7 +144,6 @@ function init(port){
         }
         app.listen(port);
         console.log('Listening on port ' + port + '...');
-sendEmail('kristopherwindsor@gmail.com', 'hey', 'it works');
       });
     });
 }
