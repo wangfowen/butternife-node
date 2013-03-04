@@ -83,28 +83,28 @@ app.post('/trip/:tripName/addaccounts', function (req, res) {
   var cTrip = db.collection('trip'), cAccount = db.collection('account');
 
   if (!tripName || /[^a-zA-Z0-9]/.test(tripName) || Object.prototype.toString.call(accounts) !== '[object Array]'){
-    res.send(400, '"bad trip name or accounts array"');
+    res.send(400, {error: "bad trip name or accounts array"});
     return;
   }
   if (cTrip.find({ name : tripName}).count() == 0){
-    res.send(404, '"trip not found"');
+    res.send(404, {error: "trip not found"});
     return;
   }
   var mustNotExist = [];
   for (var i in accounts){
     if (!validateEmail(accounts[i].email) || accounts[i].car != parseInt(accounts[i].car + "")){
-      res.send(400, '"at least one account is invalid"');
+      res.send(400, {error: "at least one account is invalid"});
       return;
     }
     mustNotExist.push({trip: tripName, email: accounts[i].email});
   }
   cAccount.find({ $or : mustNotExist }).count(function (err, count){
 	if (err){
-		res.send(500, '"count query failed"');
+		res.send(500, {error: "count query failed"});
 		return;
 	}
     if (count > 0){
-      res.send(412, '"at least one account already exists"');
+      res.send(412, {error: "at least one account already exists"});
       return;
     }
 
