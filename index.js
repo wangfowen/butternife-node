@@ -1,8 +1,43 @@
 
 
+function createRoom() {
+	
+}
+
+app.post("/butternife/room", function(res, req) {
+	
+	
+	
+});
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//----------KRIS CODE--------------------
 function validateEmail(email) { 
   var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(email);
@@ -40,7 +75,6 @@ var express = require('express');
 var app = express.createServer();
 var port = process.env.PORT || 8000;
 var db = null;
-
 app.configure(function(){
   app.use(express.bodyParser());
   app.use(function(err,req,res,next){
