@@ -3,7 +3,7 @@
   "author": "hellaroadtripcrew",
   "description": "Bebot",
   "version": "0.0.1",
-  "dependencies": {"express": "2.5.x", "sendgrid": "0.2.1"},
+  "dependencies": {"express": "x.x.x", "sendgrid": "0.2.1"},
   "engines": {
     "node": "0.6.18"
   }
