@@ -1,0 +1,145 @@
+header {
+  z-index: 2;
+  margin-bottom: 25px;
+  position: relative;
+}
+
+header h1 {
+  color: #fff;
+  text-align: center;
+  text-transform: capitalize;
+}
+
+#search {
+  position: fixed;
+  top: 10px;
+  left: 0;
+}
+
+#search #search-slide {
+  position: relative;
+  z-index: 2;
+}
+
+#search #results {
+  position: absolute;
+  background: #000;
+  width: 800px;
+  height: 400px;
+  z-index: 1;
+  opacity: .9;
+}
+
+#search #results #close-results {
+  top: -2px;
+  right: 4px;
+  color: #fff;
+  position: absolute;
+}
+
+#search-bar {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+#player {
+  position: relative;
+  left: 50%;
+  margin-left: -370px;
+  z-index: 1;
+}
+
+#player .small-icon, .large-icon {
+  float: left;
+}
+
+#player .small-icon {
+  width: 200px;
+  height: 200px;
+  margin: 50px 10px 0 10px;
+}
+
+#player .large-icon {
+  width: 300px;
+  height: 300px;
+}
+
+#player .overlay {
+  opacity: 0;
+  cursor: pointer;
+  -webkit-transition: opacity .75s ease-in-out;
+  -moz-transition: opactiy .75s ease-in-out;
+  -ms-transition: opacity .75s ease-in-out;
+  -o-transition: opacity .75s ease-in-out;
+  transition: opacity .75s ease-in-out;
+  background: #000;
+  width: 100%;
+  height: 100%;
+}
+
+#player .overlay:hover {
+  opacity: .6;
+}
+
+#player #prev {
+  background: url('/public/img/album-art-2.jpg');
+  -webkit-transform: perspective(500px) rotateY(-20deg);
+  -webkit-transition: all .75s ease-in-out;
+}
+
+#player #toggle {
+  background: url('/public/img/album-art-1.jpeg');
+}
+
+#player #toggle .overlay > div.selected {
+    display: block;
+}
+
+#player #toggle .overlay > div {
+    display: none;
+}
+
+#player #next {
+  background: url('/public/img/album-art-3.jpeg');
+  -webkit-transform: perspective(500px) rotateY(20deg);
+  -webkit-transition: all .75s ease-in-out;
+}
+
+#player #prev:hover, #player #next:hover {
+  -webkit-transform: perspective(500px) rotateY(0deg);
+}
+
+@media screen and (max-width: 768px) {
+  #player {
+    top: 10%;
+    margin-left: -220px;
+  }
+
+  #player .small-icon {
+    width: 100px;
+    height: 100px;
+  }
+
+  #player .large-icon {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  #player {
+    top: 8%;
+    margin-left: -175px;
+  }
+
+  #player .small-icon {
+    width: 80px;
+    height: 80px;
+    margin: 40px 10px 0 10px;
+  }
+
+  #player .large-icon {
+    width: 150px;
+    height: 150px;
+  }
+}

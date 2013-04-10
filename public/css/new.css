@@ -1,0 +1,78 @@
+#butternife {
+  color: #F2F2F2;
+  font-size: 100px;
+  text-align: center;
+  text-shadow: #222 4px 4px 2px;
+  margin-bottom: 40px;
+}
+
+.centered-container{
+  position: absolute;
+  top: 35%;
+  left: 43%;
+  width: 360px;
+  height: 120px;
+  margin-top: -60px;
+  margin-left: -180px;
+  /* margins are half of width/height */
+  padding: 60px;
+  padding-bottom: 90px;
+}
+
+
+#powered-by {
+  text-align: right;
+  margin-bottom: 8px;
+}
+
+#powered-by span {
+  color: #F2F2F2;
+  font-size: 9px;
+}
+
+#powered-by img {
+  position: relative;
+  bottom: 5px;
+  margin-left: 3px;
+  height: 20px;    
+}
+
+#name-form label {
+  color: #999;
+}
+
+.input-large {
+  width: 250px;
+}
+
+.input-container {
+  display: relative;
+  padding-left: 25px;
+  width: 100%;
+}
+
+.input-container #join-name {
+  margin-right: 15px;
+}
+
+.input-container button {
+  position: relative;
+  top: -5px;
+  float: left;
+}
+
+.input-container #mode-select {
+  color: #aaa;
+}
+
+.input-container #join-submit {
+  margin-top: 25px;
+}
+
+h4 {
+  color: #aaa;
+}
+
+#party-tooltip {
+  margin-right: 20px;
+}

@@ -1,73 +1,42 @@
+// Requirements
 var express = require('express');
+var http = require('http');
+
+// Create application.
 var app = express();
+var server = http.createServer(app);
+var io = require('socket.io').listen(server);
 
-
-var users = [];
-var rooms = {size: 0};
-console.log(__dirname + "/client");
 app.configure(function(){
   app.use(express.bodyParser());
-  app.use("/client", express.static(__dirname + "/client"));
+  app.set('views', rd('/app/views'));
+  //TODO: does it actually render the ejs?
+  app.set('view engine', 'ejs');
+  app.use(express.static(rd('/public')));
 });
 
-app.get("/", function(req, res) {
-  res.redirect("/client/index.html");
+// Catch All Exceptions
+process.on('uncaughtException', function(e) {
+  console.error(e);
+  process.exit(1);
 });
 
-app.get("/user", function(req, res) {
-	var user = new Object();
-	user.name = "Jack_" + users.length;
-	user.id = users.length;
-	users.push(user);
-	sendResponse(res, user);
-});
+//TODO: replace with DB stuff
+//TODO: does this global thing work? need to do something else? to get it working?
+global.users = [];
+global.rooms = {size: 0};
 
-app.post("/butternife/:roomName/user", function(req, res) {
-	console.log(req.params.roomName);
-  console.log(req.body);
-	sendResponse(res, getRoomAndAddUser(req.params.roomName, req.body));
+// Set root directory name
+global.rd = global.rootdir = function(relativePath) {
+  if (relativePath === null) {
+    relativePath = '';
+  }
 
-});
+  return __dirname + relativePath;
+};
 
-app.delete("/butternife/:roomName/user", function (req, res) {
-  rooms[req.params.roomName].users.splice(res.body.user, 1);
-  sendResponse({status: "SUCCESS"});
-});
-
-app.get("/butternife/:roomName/songs", function(req, res) {
-  sendResponse(res, rooms[req.params.roomName].playlist.songs);
-});
-
-app.post("/butternife/:roomName/song", function(req, res) {
-  rooms[req.params.roomName].playlist.songs.push(req.body.song);
-  sendResponse(res, {status: "SUCCESS"});
-});
-
-app.post("/butternife/:roomName/song/next", function(req, res) {
-  var roomName = req.params.roomName;
-  var currentSongId = rooms[roomName].playlist.currentSongId = (rooms[roomName].playlist.currentSongId - 1 ) % rooms[roomName].playlist.songs.length;
-  sendResponse(res, rooms[roomName].playlist.songs[currentSongId]);
-});
-
-app.post("/butternife/:roomName/song/prev", function(req, res) {
-  var roomName = req.params.roomName;
-  var currentSongId = rooms[roomName].playlist.currentSongId = (rooms[roomName].playlist.currentSongId - 1 ) % rooms[roomName].playlist.songs.length;
-  sendResponse(res, rooms[roomName].playlist.songs[currentSongId]);
-});
-
-app.post("/butternife/:roomName/song/state", function(req, res) {
-  var roomName = req.params.roomName;
-  var state = rooms[roomName].playlist.currentPlayState = !Boolean(rooms[roomName].playlist.currentPlayState);
-  sendResponse(res, {state: state});
-});
-
-app.delete("/butternife/:roomName/song", function(req, res) {
-  rooms[roomName].playlist.songs.splice(req.body.song.id, 1);
-  sendResponse(res, {status: "SUCCESS"});
-});
-
-function getRoomAndAddUser(roomName, data) {
-  if (rooms[roomName] == null) {
+global.getRoomAndAddUser = function(roomName, data) {
+  if (rooms[roomName] === null) {
 
     rooms[roomName] = {
       name: roomName,
@@ -86,13 +55,19 @@ function getRoomAndAddUser(roomName, data) {
   rooms[roomName].users.push(users[data.user]);
 
   return rooms[roomName];
-}
+};
 
-function sendResponse(res, data) {
+global.sendResponse = function(res, data) {
 	res.header('Content-type','application/json');
   res.header('Charset','utf8');
   res.send(JSON.stringify(data));
-}
+};
 
-app.listen(8000);
+//TODO: better way to do this? does this actually work? see code from beats
+require(rd('/app/controllers/api/rooms-controller'))(app, io);
+require(rd('/app/controllers/api/songs-controller'))(app, io);
+require(rd('/app/controllers/api/users-controller'))(app, io);
+require(rd('/app/controllers/rooms-controller'))(app, io);
+
+server.listen(process.env.PORT || 8000);
 console.log("App listen 8000");
