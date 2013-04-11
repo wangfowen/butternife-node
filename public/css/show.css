@@ -28,6 +28,7 @@ header h1 {
   height: 400px;
   z-index: 1;
   opacity: .9;
+  overflow:scroll;
 }
 
 #search #results #close-results {
@@ -142,6 +143,40 @@ header h1 {
     width: 200px;
     height: 200px;
   }
+}
+
+#gallery {
+  color: #fff;
+}
+
+.gallery-item {
+  float: left;
+  width: 120px;
+  height: 120px;
+}
+
+.gallery-item img {
+  width: 100px;
+  height: 100px;
+  text-align: center;
+}
+
+.list-image {
+  width: 75px;
+  height: 75px;
+  padding-right:10px;
+}
+.song-list {
+  background-image: url("/img/list-background.png");
+  padding: 10px;
+  border: 1px solid;
+  border-color: #000;
+  color: #fff;
+
+}
+.song-list-item {
+  padding-left: 20px;
+  text-align:center;
 }
 
 @media screen and (max-width: 480px) {

@@ -12,6 +12,7 @@ $(function() {
     user = data;
     console.log(user);
   });
+  
   /*
   $.ajax({
     dataType:'jsonp',

@@ -65,12 +65,28 @@ $(function() {
         }
     });
 
-    $('#search-button').click(function(e) {
+    $('#search-button').click(function(e) 
+    {
         e.preventDefault();
         e.stopPropagation();
 
-        if ($searchBar.val() !== "") {
+        if ($searchBar.val() !== "") 
+        {
             $results.animate({top: resultsTop});
+            $.get("http://ex.fm/api/v3/song/search/" + $searchBar.val(), function(data) 
+            {
+              for (var i = 0; i < data.songs.length; i++) 
+              {
+                $("#results").append(
+                  getSongListView(
+                    data.songs[i].title, 
+                    data.songs[i].album, 
+                    (data.songs[i].image.small) ?
+                      data.songs[i].image.small : "/img/default.png"
+                  )
+                );
+              }
+            });
         }
     });
 
@@ -103,4 +119,11 @@ $(function() {
       //TODO: make API call
     });
 
+    function getSongListView(title, album, image) 
+    {
+      return "<div class=\"song-list\">"
+          + "<img class=\"list-image\" src=\"" + image + "\"/>" 
+          + title +
+      "</div>";
+    }
 });
