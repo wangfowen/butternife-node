@@ -1,5 +1,6 @@
 $(function() {
     /* SEARCH */
+    var cookie = JSON.parse($.cookie('butternife'));
     var $searchContainer = $('#search'),
         $searchSlide = $('#search-slide'),
         $searchBar = $('#search-bar'),
