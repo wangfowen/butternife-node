@@ -1,0 +1,7 @@
+<% for(var i = 2; i < songs.length - 1; i++) { %>
+ <div class="gallery-item">
+   <img class="art" src="<%= songs[i].art %>"/>
+   <div class="song"><%= songs[i].name %></div>
+   <div class="artist"><%= songs[i].artist %></div>
+ </div>
+<% } %>

@@ -1,4 +1,5 @@
 $(function() {
+    /* SEARCH */
     var $searchContainer = $('#search'),
         $searchSlide = $('#search-slide'),
         $searchBar = $('#search-bar'),
@@ -29,6 +30,7 @@ $(function() {
         }
     });
 
+    /* PLAYER */
     $('#close-results').click(function(e) {
         $results.animate({top: resultsBot});
     });
@@ -41,4 +43,32 @@ $(function() {
         $play.toggleClass('selected');
         $pause.toggleClass('selected');
     });
+
+    /* GALLERY */
+    var songs = {
+          songs: [
+            {
+              art: '/img/young-the-giant.jpeg',
+              name: 'Cough Syrup',
+              artist: 'Young the Giant'
+            },
+            {
+              art: '/img/all-american.jpeg',
+              name: 'No Interruption',
+              artist: 'Hoodie Allen'
+            },
+            {
+              art: '/img/southern-air.jpg',
+              name: 'Awakening',
+              artist: 'Yellowcard'
+            },
+            {
+              art: '/img/viva-la-vida.jpg',
+              name: 'Viva La Vida',
+              artist: 'Coldplay'
+            }
+          ]
+        },
+        gallery = new EJS({url: '/js/template/gallery.ejs'}).render(songs);
+    document.getElementById('gallery').innerHTML = gallery;
 });

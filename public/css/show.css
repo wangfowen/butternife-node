@@ -82,13 +82,13 @@ header h1 {
 }
 
 #player #prev {
-  background: url('/img/album-art-2.jpg');
+  background: url('/img/viva-la-vida.jpg');
   -webkit-transform: perspective(500px) rotateY(-20deg);
   -webkit-transition: all .75s ease-in-out;
 }
 
 #player #toggle {
-  background: url('/img/album-art-1.jpeg');
+  background: url('/img/young-the-giant.jpeg');
 }
 
 #player #toggle .overlay > div.selected {
@@ -100,7 +100,7 @@ header h1 {
 }
 
 #player #next {
-  background: url('/img/album-art-3.jpeg');
+  background: url('/img/all-american.jpeg');
   -webkit-transform: perspective(500px) rotateY(20deg);
   -webkit-transition: all .75s ease-in-out;
 }
@@ -124,6 +124,22 @@ header h1 {
     width: 200px;
     height: 200px;
   }
+}
+
+#gallery {
+  color: #fff;
+}
+
+.gallery-item {
+  float: left;
+  width: 120px;
+  height: 120px;
+}
+
+.gallery-item img {
+  width: 100px;
+  height: 100px;
+  text-align: center;
 }
 
 @media screen and (max-width: 480px) {

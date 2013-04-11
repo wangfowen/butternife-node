@@ -14,7 +14,6 @@ process.on('uncaughtException', function(e) {
 });
 
 //TODO: replace with DB stuff
-//TODO: does this global thing work? need to do something else? to get it working?
 global.users = [];
 global.rooms = {size: 0};
 
@@ -58,7 +57,6 @@ global.sendResponse = function(res, data) {
 app.configure(function(){
   app.use(express.bodyParser());
   app.set('views', rd('/app/views'));
-  //TODO: does it actually render the ejs?
   app.set('view engine', 'ejs');
   app.use(express.static(rd('/public')));
 });
