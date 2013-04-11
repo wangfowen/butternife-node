@@ -28,7 +28,7 @@ global.rd = global.rootdir = function(relativePath) {
 };
 
 global.getRoomAndAddUser = function(roomName, data) {
-  if (rooms[roomName] === null) {
+  if (rooms[roomName] == null) {
 
     rooms[roomName] = {
       name: roomName,

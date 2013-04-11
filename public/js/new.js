@@ -8,7 +8,10 @@ $(function() {
   });
 
   var user;
-
+  $.get("/user", {}, function(data) {
+    user = data;
+    console.log(user);
+  });
   /*
   $.ajax({
     dataType:'jsonp',
@@ -28,6 +31,18 @@ $(function() {
     var joinName = $('#join-name').val(),
       mode = $('input[name=music-mode]:checked').val();
 
+    $.post("/butternife/" + joinName + "/user", {
+        user: user,
+        mode: mode
+      },
+      function() {
+          $.cookie('butternife', JSON.stringify(user), {path: '/'});
+          window.location.href = "/" + joinName;
+      }
+    ).fail(function() {
+      console.log("Error");
+    });
+
   /*
     $.ajax({
       dataType:'jsonp',
@@ -40,6 +55,6 @@ $(function() {
       }
     });
   */
-    window.location.href = "/" + joinName;
+    //window.location.href = "/" + joinName;
   });
 });
