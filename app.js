@@ -7,14 +7,6 @@ var app = express();
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
 
-app.configure(function(){
-  app.use(express.bodyParser());
-  app.set('views', rd('/app/views'));
-  //TODO: does it actually render the ejs?
-  app.set('view engine', 'ejs');
-  app.use(express.static(rd('/public')));
-});
-
 // Catch All Exceptions
 process.on('uncaughtException', function(e) {
   console.error(e);
@@ -62,6 +54,14 @@ global.sendResponse = function(res, data) {
   res.header('Charset','utf8');
   res.send(JSON.stringify(data));
 };
+
+app.configure(function(){
+  app.use(express.bodyParser());
+  app.set('views', rd('/app/views'));
+  //TODO: does it actually render the ejs?
+  app.set('view engine', 'ejs');
+  app.use(express.static(rd('/public')));
+});
 
 //TODO: better way to do this? does this actually work? see code from beats
 require(rd('/app/controllers/api/rooms-controller'))(app, io);

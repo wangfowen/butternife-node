@@ -1,3 +1,4 @@
+{% extends "base.ejs" %}
 <header>
     <div id="search">
         <form>
@@ -10,7 +11,7 @@
             <button class="close" id="close-results">&times;</button>
         </div>
     </div>
-    <h1><!-- TODO: pass in name --></h1>
+    <h1><%= name %></h1>
 </header>
 <div id="player">
     <div class="small-icon" id="prev">
