@@ -82,13 +82,13 @@ header h1 {
 }
 
 #player #prev {
-  background: url('/public/img/album-art-2.jpg');
+  background: url('/img/album-art-2.jpg');
   -webkit-transform: perspective(500px) rotateY(-20deg);
   -webkit-transition: all .75s ease-in-out;
 }
 
 #player #toggle {
-  background: url('/public/img/album-art-1.jpeg');
+  background: url('/img/album-art-1.jpeg');
 }
 
 #player #toggle .overlay > div.selected {
@@ -100,7 +100,7 @@ header h1 {
 }
 
 #player #next {
-  background: url('/public/img/album-art-3.jpeg');
+  background: url('/img/album-art-3.jpeg');
   -webkit-transform: perspective(500px) rotateY(20deg);
   -webkit-transition: all .75s ease-in-out;
 }
