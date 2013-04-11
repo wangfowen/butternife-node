@@ -1,5 +1,48 @@
 $(function() {
-    /* SEARCH */
+  var rerenderPlaylist = function() {
+    document.getElementById('gallery').innerHTML = gallery.render(playlist);
+    document.getElementById('player').innerHTML = player.render(playlist);
+  };
+
+  //TODO: replace this with an API call to fetch songs
+  var playlist = {
+          currentSong: 0,
+          songs: [
+            {
+              image: '/img/young-the-giant.jpeg',
+              name: 'Cough Syrup',
+              imageist: 'Young the Giant'
+            },
+            {
+              image: '/img/all-american.jpeg',
+              name: 'No Interruption',
+              imageist: 'Hoodie Allen'
+            },
+            {
+              image: '/img/southern-air.jpg',
+              name: 'Awakening',
+              imageist: 'Yellowcard'
+            },
+            {
+              image: '/img/viva-la-vida.jpg',
+              name: 'Viva La Vida',
+              artist: 'Coldplay'
+            }
+          ],
+          nextSong: function(currSong) {
+            return (currSong + 1) % playlist.songs.length;
+          },
+          prevSong: function(currSong) {
+            return currSong - 1 >= 0 ? currSong - 1 : playlist.songs.length - 1;
+          }
+        };
+
+  /* GALLERY */
+  var gallery = new EJS({url: '/js/template/gallery.ejs'});
+      player = new EJS({url: '/js/template/player.ejs'});
+  rerenderPlaylist();
+
+  /* SEARCH */
     var cookie = JSON.parse($.cookie('butternife'));
     var $searchContainer = $('#search'),
         $searchSlide = $('#search-slide'),
@@ -38,38 +81,26 @@ $(function() {
 
     var $toggle = $('#toggle'),
         $play = $('#play'),
-        $pause = $('#pause');
+        $pause = $('#pause'),
+        $next = $('#next'),
+        $prev = $('#prev');
 
     $toggle.click(function(e) {
         $play.toggleClass('selected');
         $pause.toggleClass('selected');
     });
 
-    /* GALLERY */
-    var songs = {
-          songs: [
-            {
-              art: '/img/young-the-giant.jpeg',
-              name: 'Cough Syrup',
-              artist: 'Young the Giant'
-            },
-            {
-              art: '/img/all-american.jpeg',
-              name: 'No Interruption',
-              artist: 'Hoodie Allen'
-            },
-            {
-              art: '/img/southern-air.jpg',
-              name: 'Awakening',
-              artist: 'Yellowcard'
-            },
-            {
-              art: '/img/viva-la-vida.jpg',
-              name: 'Viva La Vida',
-              artist: 'Coldplay'
-            }
-          ]
-        },
-        gallery = new EJS({url: '/js/template/gallery.ejs'}).render(songs);
-    document.getElementById('gallery').innerHTML = gallery;
+    $next.click(function(e) {
+      playlist.currentSong = playlist.nextSong(playlist.currentSong);
+      //TODO: fix rerendering so it doesn't lose event listeners
+      rerenderPlaylist();
+      //TODO: make API call
+    });
+
+    $prev.click(function(e) {
+      playlist.currentSong = playlist.prevSong(playlist.currentSong);
+      rerenderPlaylist();
+      //TODO: make API call
+    });
+
 });
